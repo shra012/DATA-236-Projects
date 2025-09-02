@@ -89,7 +89,6 @@ Planner JSON: {json.dumps(planner_output, ensure_ascii=False)}
 
 def finalizer(planner_json, reviewer_json, topic):
     """Combine and print the finalized output and publish package."""
-    # Compose finalized output
     finalized = {
         "thought": reviewer_json.get("thought", ""),
         "message": reviewer_json.get("message", ""),
@@ -99,7 +98,6 @@ def finalizer(planner_json, reviewer_json, topic):
     print("\n=== Finalized output ===\n")
     print(json.dumps(finalized, indent=2, ensure_ascii=False))
 
-    # Compose publish package
     publish = {
         "title": topic,
         "thought": planner_json.get("thought", ""),
