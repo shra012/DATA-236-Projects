@@ -1,26 +1,10 @@
 import json
-import random
-from langchain_ollama import ChatOllama 
+from langchain_ollama import ChatOllama
 import argparse
 import time
 
-def get_random_topic():
-    """Returns a random tech topic from predefined list"""
-    topics = [
-        "Machine Learning",
-        "Blockchain Technology", 
-        "Cloud Computing",
-        "Cybersecurity",
-        "Internet of Things",
-        "Artificial Intelligence",
-        "Data Science",
-        "DevOps",
-        "Microservices",
-        "Quantum Computing"
-    ]
-    return random.choice(topics)
 
-def wait_ollama(base_url="http://127.0.0.1:11434", max_retries=5):
+def wait_ollama(base_url, max_retries=5):
     """Check if Ollama service is running"""
     import requests
     for i in range(max_retries):
@@ -32,7 +16,8 @@ def wait_ollama(base_url="http://127.0.0.1:11434", max_retries=5):
             time.sleep(1)
     return False
 
-def ask_ollama(prompt, model="smollm:1.7b", base_url="http://127.0.0.1:11434"):
+
+def ask_ollama(prompt, model="phi3:mini", base_url="http://127.0.0.1:11434"):
     """Send prompt to Ollama using LangChain and return response"""
     llm = ChatOllama(
         model=model,
@@ -44,10 +29,11 @@ def ask_ollama(prompt, model="smollm:1.7b", base_url="http://127.0.0.1:11434"):
     response = llm.invoke(prompt)
     return response.content
 
-def planner_prompt(topic, content=None):
-        """Prompt for Planner agent to generate tags and summary with thought and message."""
-        content_section = f"\nContent to analyze: {content}\n" if content else ""
-        return f'''You are Planner.
+
+def planner_prompt(topic, content):
+    """Prompt for Planner agent to generate tags and summary with thought and message."""
+    content_section = f"\nContent to analyze: {content}\n" if content else ""
+    return f'''You are Planner.
 Think step by step. First, write a brief thought about the topic{" and provided content" if content else ""}.
 Then, write a one-sentence message summarizing the topic{" based on the content" if content else ""}.
 Then, generate a JSON object with:
@@ -67,10 +53,11 @@ Respond ONLY with a JSON object in this format:
 Topic: {topic}{content_section}
 '''
 
-def reviewer_prompt(topic, planner_output, content=None):
-        """Prompt for Reviewer agent to validate and possibly revise tags/summary, with thought and message."""
-        content_section = f"\nContent to analyze: {content}\n" if content else ""
-        return f'''You are Reviewer.
+
+def reviewer_prompt(topic, planner_output, content):
+    """Prompt for Reviewer agent to validate and possibly revise tags/summary, with thought and message."""
+    content_section = f"\nContent to analyze: {content}\n" if content else ""
+    return f'''You are Reviewer.
 Given the topic{" and provided content" if content else ""} and the Planner's JSON, check if the tags and summary are clear, correct, and relevant.
 If not, revise them. Write a brief thought and a one-sentence message.
 Respond ONLY with a JSON object in this format:
@@ -87,7 +74,8 @@ Topic: {topic}{content_section}
 Planner JSON: {json.dumps(planner_output, ensure_ascii=False)}
 '''
 
-def finalizer(planner_json, reviewer_json, topic):
+
+def finalizer(planner_json, reviewer_json, topic, content, email):
     """Combine and print the finalized output and publish package."""
     finalized = {
         "thought": reviewer_json.get("thought", ""),
@@ -100,6 +88,8 @@ def finalizer(planner_json, reviewer_json, topic):
 
     publish = {
         "title": topic,
+        "content": content,
+        "email": email,
         "thought": planner_json.get("thought", ""),
         "message": planner_json.get("message", ""),
         "agents": [
@@ -112,17 +102,20 @@ def finalizer(planner_json, reviewer_json, topic):
     print(json.dumps(publish, indent=2, ensure_ascii=False))
     return finalized
 
+
 def main():
     """Main function to orchestrate the multi-agent workflow"""
-    parser = argparse.ArgumentParser(description="Two-agent (Planner, Reviewer) demo with strict JSON finalizer.")
-    parser.add_argument("--model", default="smollm:1.7b")
-    parser.add_argument("--title", type=str, help="Topic to analyze")
-    parser.add_argument("--content", type=str, help="Content to analyze for the given topic")
+    parser = argparse.ArgumentParser(description="Two-agent (Planner, Reviewer) demo with JSON output.")
+    parser.add_argument("--model", default="phi3:mini", type=str, help="Ollama model to use")
+    parser.add_argument("--title", type=str, help="Topic to analyze", required=True)
+    parser.add_argument("--content", type=str, help="Content to analyze for the given topic", required=True)
     parser.add_argument("--base-url", default="http://127.0.0.1:11434")
+    parser.add_argument("--email", default="shravankumar.nagarajan@sjsu.edu", type=str, help="Email of the user")
     args = parser.parse_args()
 
-    topic = args.title if args.title else get_random_topic()
+    topic = args.title
     content = args.content
+    email = args.email
     print(f"Topic: {topic}")
     if content:
         print(f"Content: {content[:100]}{'...' if len(content) > 100 else ''}")
@@ -135,7 +128,7 @@ def main():
     planner_raw = ask_ollama(planner_prompt(topic, content), args.model, args.base_url)
     print(planner_raw)
     try:
-        planner_json = json.loads(planner_raw[planner_raw.find('{'):planner_raw.rfind('}')+1])
+        planner_json = json.loads(planner_raw[planner_raw.find('{'):planner_raw.rfind('}') + 1])
     except Exception:
         print("Planner did not return valid JSON.")
         return
@@ -144,12 +137,13 @@ def main():
     reviewer_raw = ask_ollama(reviewer_prompt(topic, planner_json, content), args.model, args.base_url)
     print(reviewer_raw)
     try:
-        reviewer_json = json.loads(reviewer_raw[reviewer_raw.find('{'):reviewer_raw.rfind('}')+1])
+        reviewer_json = json.loads(reviewer_raw[reviewer_raw.find('{'):reviewer_raw.rfind('}') + 1])
     except Exception:
         print("Reviewer did not return valid JSON.")
         return
 
-    finalizer(planner_json, reviewer_json, topic)
+    finalizer(planner_json, reviewer_json, topic, content, email)
+
 
 if __name__ == "__main__":
     main()
