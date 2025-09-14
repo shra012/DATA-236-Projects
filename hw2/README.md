@@ -11,7 +11,7 @@ A functional book management application built with EJS templating, CSS, and Nod
 
 ### Part 1: HTML & CSS - Artist Liberty
 - **Creative Design**: Responsive design with gradient backgrounds
-- **Beautiful UI**: Card-based layout with hover effects and smooth transitions
+- **UI**: Card-based layout with hover effects and smooth transitions
 - **Custom Styling**: Unique color scheme with purple/blue gradients and creative button styles
 - **Mobile Responsive**: Fully responsive design that works on all screen sizes
 - **Interactive Elements**: Hover effects, loading animations, and form interactions
