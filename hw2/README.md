@@ -1,5 +1,5 @@
-# Book Management System - Homework 2
-
+# Homework 2
+## Book Management System
 A functional book management application built with EJS templating, CSS, and Node.js/Express.
 
 ## Recent Updates
