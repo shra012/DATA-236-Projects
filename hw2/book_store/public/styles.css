@@ -1,0 +1,492 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    background: #fafbfc;
+    min-height: 100vh;
+    color: #2e3440;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: #ffffff;
+    box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.06), 0 2px 4px rgba(16, 22, 26, 0.08);
+}
+
+.header {
+    background: #ffffff;
+    color: #2e3440;
+    text-align: left;
+    padding: 2.5rem 2rem 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.main-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+    letter-spacing: -0.025em;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.navigation {
+    display: flex;
+    justify-content: flex-start;
+    background: #ffffff;
+    padding: 0 2rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-link {
+    color: #6b7280;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.nav-link:hover {
+    color: #374151;
+    background: #f9fafb;
+}
+
+.nav-link.active {
+    color: #1f2937;
+    background: #f3f4f6;
+}
+
+.main-content {
+    padding: 2rem;
+    min-height: 60vh;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.book-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.book-card:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.book-content {
+    margin-bottom: 1rem;
+}
+
+.book-title {
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.book-author {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.book-id {
+    color: #9ca3af;
+    font-size: 0.8rem;
+}
+
+.book-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.btn-edit {
+    background: #f59e0b;
+    color: white;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.btn-edit:hover {
+    background: #d97706;
+}
+
+.btn-delete {
+    background: #ef4444;
+    color: white;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.btn-delete:hover {
+    background: #dc2626;
+}
+
+.edit-form {
+    border-top: 1px solid #f3f4f6;
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.edit-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.edit-form .form-input {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+}
+
+.book-placeholder {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #6b7280;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 2px dashed #d1d5db;
+}
+
+.stats-section {
+    margin-top: 2rem;
+}
+
+.stats-card {
+    background: #f8fafc;
+    color: #1f2937;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #059669;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+    background: #ffffff;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-start;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+.update-info,
+.delete-warning {
+    background: #eff6ff;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #bfdbfe;
+}
+
+.delete-warning {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.warning-text {
+    color: #dc2626;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.footer {
+    background: #f9fafb;
+    color: #6b7280;
+    text-align: center;
+    padding: 2rem;
+    margin-top: auto;
+    border-top: 1px solid #e5e7eb;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 1.75rem;
+    }
+    
+    .header {
+        padding: 2rem 1rem 1.5rem;
+    }
+    
+    .navigation {
+        padding: 0 1rem 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .main-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .form-container {
+        margin: 0 1rem;
+        padding: 1.5rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .books-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.nav-btn {
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+
+.nav-btn:hover {
+    color: #374151;
+    background: #e5e7eb;
+}
+
+.nav-btn.active {
+    color: #1f2937;
+    background: #f3f4f6;
+    border-bottom: 2px solid #3b82f6;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.editable-card {
+    transition: all 0.2s ease;
+}
+
+.editable-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.top-books-section {
+    margin-bottom: 2rem;
+}
+
+.top-books-section h3 {
+    font-size: 1.25rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+#updateFormContainer {
+    border-top: 2px solid #e5e7eb;
+    padding-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .navigation {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .nav-btn {
+        margin-right: 0;
+        flex: 1;
+        min-width: calc(50% - 0.25rem);
+    }
+}
+
+.container {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.content-section {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+}
+
+.delete-btn:active {
+    transform: scale(0.95);
+}

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management System</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Book Management System</h1>
+            <p class="subtitle">Manage your personal library in one place</p>
+        </header>
+
+        <nav class="navigation">
+            <button id="showAllBooks" class="nav-btn active">All Books</button>
+            <button id="showAddBook" class="nav-btn">Add Book</button>
+            <button id="showUpdateBook" class="nav-btn">Update Book</button>
+            <button id="showDeleteHighest" class="nav-btn">Delete Highest</button>
+        </nav>
+
+        <main class="main-content">
+            <section id="allBooksSection" class="content-section active">
+                <h2 class="section-title">Your Book Collection</h2>
+                <div class="books-grid" id="allBooksGrid">
+                    <div class="book-placeholder">
+                        <p>Loading your books...</p>
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <div class="stats-card">
+                        <h3>Library Statistics</h3>
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalBooks">0</span>
+                            <span class="stat-label">Total Books</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="addBookSection" class="content-section">
+                <h2 class="section-title">Add New Book</h2>
+                <div class="form-container">
+                    <form id="addBookForm" class="book-form">
+                        <div class="form-group">
+                            <label for="addTitle" class="form-label">Book Title</label>
+                            <input type="text" id="addTitle" name="title" class="form-input" required 
+                                   placeholder="Enter the book title">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="addAuthor" class="form-label">Author Name</label>
+                            <input type="text" id="addAuthor" name="author" class="form-input" required 
+                                   placeholder="Enter the author's name">
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                Add Book
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="showSection('allBooksSection')">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="updateBookSection" class="content-section">
+                <h2 class="section-title">Update Books</h2>
+                <div class="update-info">
+                    <h3>Select a book to update:</h3>
+                    <p>Click on any book card below to edit its information</p>
+                </div>
+                <div class="books-grid" id="updateBooksGrid">
+                    <div class="book-placeholder">
+                        <p>Loading books for editing...</p>
+                    </div>
+                </div>
+
+                <div id="updateFormContainer" class="form-container" style="display: none; margin-top: 2rem;">
+                    <h3>Update Book Information</h3>
+                    <form id="updateBookForm" class="book-form">
+                        <input type="hidden" id="updateBookId" name="bookId">
+                        
+                        <div class="form-group">
+                            <label for="updateTitle" class="form-label">Book Title</label>
+                            <input type="text" id="updateTitle" name="title" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="updateAuthor" class="form-label">Author Name</label>
+                            <input type="text" id="updateAuthor" name="author" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                Update Book
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelUpdate()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="deleteHighestSection" class="content-section">
+                <h2 class="section-title">Delete Highest ID Book</h2>
+                
+                <div class="top-books-section">
+                    <h3>Top 5 Highest ID Books</h3>
+                    <div class="books-grid" id="topBooksGrid">
+                        <div class="book-placeholder">
+                            <p>Loading top books...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <div class="delete-warning">
+                        <h3>Delete Highest ID Book</h3>
+                        <p>This action will permanently delete the book with the highest ID from your library.</p>
+                        <p class="warning-text">This action cannot be undone!</p>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button id="deleteHighestBtn" class="btn btn-danger">
+                            Delete Highest ID Book
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="showSection('allBooksSection')">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Book Management System</p>
+        </footer>
+    </div>
+
+    <script>
+        let allBooks = [];
+        let currentEditingBook = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setupNavigation();
+            loadAllBooks();
+        });
+
+        function setupNavigation() {
+            document.getElementById('showAllBooks').addEventListener('click', () => {
+                showSection('allBooksSection');
+                loadAllBooks();
+            });
+            
+            document.getElementById('showAddBook').addEventListener('click', () => {
+                showSection('addBookSection');
+                clearAddForm();
+            });
+            
+            document.getElementById('showUpdateBook').addEventListener('click', () => {
+                showSection('updateBookSection');
+                loadBooksForUpdate();
+            });
+            
+            document.getElementById('showDeleteHighest').addEventListener('click', () => {
+                showSection('deleteHighestSection');
+                loadTopBooks();
+            });
+
+            document.getElementById('addBookForm').addEventListener('submit', handleAddBook);
+            document.getElementById('updateBookForm').addEventListener('submit', handleUpdateBook);
+            document.getElementById('deleteHighestBtn').addEventListener('click', handleDeleteHighest);
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            
+            const navMapping = {
+                'allBooksSection': 'showAllBooks',
+                'addBookSection': 'showAddBook',
+                'updateBookSection': 'showUpdateBook',
+                'deleteHighestSection': 'showDeleteHighest'
+            };
+            
+            if (navMapping[sectionId]) {
+                document.getElementById(navMapping[sectionId]).classList.add('active');
+            }
+        }
+
+        async function loadAllBooks() {
+            try {
+                const response = await fetch('/api/books');
+                const data = await response.json();
+                allBooks = data.books;
+                
+                displayAllBooks();
+                updateStats(data);
+            } catch (error) {
+                console.error('Error loading books:', error);
+                showError('allBooksGrid', 'Error loading books');
+            }
+        }
+
+        function displayAllBooks() {
+            const grid = document.getElementById('allBooksGrid');
+            grid.innerHTML = '';
+            
+            if (allBooks.length === 0) {
+                grid.innerHTML = '<div class="book-placeholder"><p>No books in your library yet. <button onclick="showSection(\'addBookSection\')" style="color: #3b82f6; background: none; border: none; text-decoration: underline; cursor: pointer;">Add your first book!</button></p></div>';
+                return;
+            }
+            
+            allBooks.forEach(book => {
+                const bookCard = createBookCard(book, false, true);
+                grid.appendChild(bookCard);
+            });
+        }
+
+        function loadBooksForUpdate() {
+            const grid = document.getElementById('updateBooksGrid');
+            grid.innerHTML = '';
+            
+            if (allBooks.length === 0) {
+                grid.innerHTML = '<div class="book-placeholder"><p>No books to update.</p></div>';
+                return;
+            }
+            
+            allBooks.forEach(book => {
+                const bookCard = createBookCard(book, true);
+                grid.appendChild(bookCard);
+            });
+        }
+
+        function loadTopBooks() {
+            const grid = document.getElementById('topBooksGrid');
+            grid.innerHTML = '';
+            
+            if (allBooks.length === 0) {
+                grid.innerHTML = '<div class="book-placeholder"><p>No books in your library.</p></div>';
+                return;
+            }
+            
+            const sortedBooks = [...allBooks].sort((a, b) => b.id - a.id).slice(0, 5);
+            
+            sortedBooks.forEach((book, index) => {
+                const bookCard = createTopBookCard(book, index + 1);
+                grid.appendChild(bookCard);
+            });
+        }
+
+        function createBookCard(book, forUpdate = false, showDelete = false) {
+            const bookCard = document.createElement('div');
+            bookCard.className = 'book-card' + (forUpdate ? ' editable-card' : '');
+            
+            if (forUpdate) {
+                bookCard.style.cursor = 'pointer';
+                bookCard.addEventListener('click', () => startEdit(book));
+            }
+            
+            bookCard.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                    <div style="flex: 1;">
+                        <h3 style="color: #1f2937; margin-bottom: 0.75rem; font-size: 1.125rem; font-weight: 600;">${escapeHtml(book.title)}</h3>
+                    </div>
+                    ${showDelete ? `<button onclick="deleteBook(${book.id})" class="delete-btn" title="Delete this book">Delete</button>` : ''}
+                </div>
+                <p style="color: #6b7280; margin-bottom: 0.5rem; font-size: 0.9rem;"><span style="font-weight: 500;">Author:</span> ${escapeHtml(book.author)}</p>
+                <p style="color: #9ca3af; font-size: 0.8rem;"><span style="font-weight: 500;">ID:</span> ${book.id}</p>
+                ${forUpdate ? '<div style="margin-top: 0.75rem; padding: 0.5rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; font-size: 0.8rem; color: #3b82f6;">Click to edit this book</div>' : ''}
+            `;
+            
+            return bookCard;
+        }
+
+        function createTopBookCard(book, rank) {
+            const bookCard = document.createElement('div');
+            bookCard.className = 'book-card';
+            
+            bookCard.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                    <span style="background: ${rank === 1 ? '#ef4444' : '#6b7280'}; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 500;">#${rank}</span>
+                    <span style="color: #9ca3af; font-size: 0.8rem;">ID: ${book.id}</span>
+                </div>
+                <h3 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1.125rem; font-weight: 600;">${escapeHtml(book.title)}</h3>
+                <p style="color: #6b7280; font-size: 0.9rem;"><span style="font-weight: 500;">Author:</span> ${escapeHtml(book.author)}</p>
+                ${rank === 1 ? '<div style="margin-top: 0.75rem; padding: 0.5rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 4px; font-size: 0.8rem; color: #dc2626;">⚠️ This book will be deleted</div>' : ''}
+            `;
+            
+            return bookCard;
+        }
+
+        // Handle add book
+        async function handleAddBook(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const title = formData.get('title').trim();
+            const author = formData.get('author').trim();
+            
+            if (!title || !author) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/books', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, author })
+                });
+                
+                if (response.ok) {
+                    await loadAllBooks();
+                    clearAddForm();
+                    showSection('allBooksSection');
+                    alert('Book added successfully!');
+                } else {
+                    alert('Error adding book');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error adding book');
+            }
+        }
+
+        function startEdit(book) {
+            currentEditingBook = book;
+            document.getElementById('updateBookId').value = book.id;
+            document.getElementById('updateTitle').value = book.title;
+            document.getElementById('updateAuthor').value = book.author;
+            document.getElementById('updateFormContainer').style.display = 'block';
+            document.getElementById('updateFormContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelUpdate() {
+            currentEditingBook = null;
+            document.getElementById('updateFormContainer').style.display = 'none';
+            document.getElementById('updateBookForm').reset();
+        }
+
+        async function handleUpdateBook(e) {
+            e.preventDefault();
+            
+            if (!currentEditingBook) return;
+            
+            const formData = new FormData(e.target);
+            const title = formData.get('title').trim();
+            const author = formData.get('author').trim();
+            
+            if (!title || !author) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/books/${currentEditingBook.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, author })
+                });
+                
+                if (response.ok) {
+                    await loadAllBooks();
+                    cancelUpdate();
+                    loadBooksForUpdate();
+                    alert('Book updated successfully!');
+                } else {
+                    alert('Error updating book');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error updating book');
+            }
+        }
+
+        async function handleDeleteHighest() {
+            if (!confirm('Are you sure you want to delete the book with the highest ID? This action cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/books/delete-highest', {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    await loadAllBooks();
+                    loadTopBooks();
+                    alert('Highest ID book deleted successfully!');
+                    showSection('allBooksSection');
+                } else {
+                    alert('Error deleting book');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error deleting book');
+            }
+        }
+
+        async function deleteBook(bookId) {
+            if (!confirm('Are you sure you want to delete this book? This action cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/books/${bookId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    await loadAllBooks();
+                    loadTopBooks();
+                    alert('Book deleted successfully!');
+                } else {
+                    alert('Error deleting book');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error deleting book');
+            }
+        }
+
+        function clearAddForm() {
+            document.getElementById('addBookForm').reset();
+        }
+
+        function updateStats(data) {
+            document.getElementById('totalBooks').textContent = data.totalBooks;
+        }
+
+        function showError(gridId, message) {
+            document.getElementById(gridId).innerHTML = `<div class="book-placeholder"><p style="color: #ef4444;">${message}. Please refresh the page.</p></div>`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

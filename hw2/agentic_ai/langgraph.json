@@ -1,0 +1,42 @@
+{
+    "dependencies": [
+        "."
+    ],
+    "graphs": {
+        "agentic_ai": {
+            "path": "agentic_ai.state_graph:build_graph",
+            "config_schema": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Title for the planning task"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Content or description for the task"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email address for context"
+                    },
+                    "task": {
+                        "type": "string",
+                        "description": "Specific task description"
+                    },
+                    "strict": {
+                        "type": "boolean",
+                        "description": "Whether to use strict validation",
+                        "default": true
+                    },
+                    "max_turns": {
+                        "type": "integer",
+                        "description": "Maximum number of turns in the conversation",
+                        "default": 8
+                    }
+                }
+            }
+        }
+    },
+    "env": ".env"
+}

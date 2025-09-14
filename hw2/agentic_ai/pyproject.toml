@@ -1,0 +1,29 @@
+[project]
+name = "agentic-ai"
+version = "0.1.0"
+description = "LangGraph-based stateful agent graph (Planner/Reviewer with Supervisor)"
+requires-python = ">=3.12"
+dependencies = [
+  "langgraph>=0.2.35",
+  "langchain>=0.3.0",
+  "langchain-openai>=0.2.0",
+  "python-dotenv>=1.0.1",
+  "langsmith>=0.4.0",
+  "langgraph-cli[inmem]>=0.4.2",
+]
+
+[project.scripts]
+state-graph = "agentic_ai.state_graph:main"
+
+[tool.uv]
+package = true
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["agentic_ai"]
+
+[tool.setuptools.package-dir]
+agentic_ai = "."
