@@ -100,14 +100,14 @@ hw2/
 - **Package Manager**: npm
 - **Development**: nodemon for auto-restart
 
-**Part 3: Stateful Agent Graph (LangGraph)**
+## Part 3: Stateful Agent Graph (LangGraph)
 
-- **Location**: `part3_stateful_graph.py`
+- **Location**: `agentic_ai/stateful_graph.py`
 - **Overview**: Implements a Planner → Reviewer loop using a Supervisor router with LangGraph. Uses a shared `AgentState` and conditional routing to iterate until no issues or a max turn limit.
 - **Run**:
-  1. Ensure Python 3.9+ is available: `python3 --version`
-  2. Bootstrap pip if needed: `python3 -m ensurepip --upgrade`
-  3. Install dependency: `python3 -m pip install --user langgraph`
-  4. Execute: `python3 part3_stateful_graph.py`
-- **What to expect**: Streaming logs showing `supervisor`, `planner`, `reviewer` steps and final `END`.
-- **Test correction loop**: Temporarily modify `reviewer_node` in `part3_stateful_graph.py:120` to always append an issue (e.g., `issues.append("Forced issue for testing")`). The graph will route back to the planner until `max_turns` is hit.
+  1. Ensure Python 3.12+ is available: `python3 --version`
+  2. Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+  3. Install dependency: `uv sync --dev` which pulls required libs from `project.toml`
+  4. Execute: `python3 stateful_graph.py`, or with options like `--title, --content` etc,
+- **What to expect**: Streaming logs showing `supervisor`, `planner`, `reviewer` steps, and final `END`.
+- **Test correction loop**: Temporarily modify `reviewer_node` in `stateful_graph.py` to add issues if needed. The graph will route back to the planner until `max_turns` is hit if issues are not resolved.
