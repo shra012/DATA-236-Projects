@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 function getHighestId() {
   if (books.length === 0) return 0;
@@ -36,7 +37,11 @@ function getHighestId() {
 }
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "index.html"));
+  res.render("index", {
+    books,
+    totalBooks: books.length,
+    highestId: getHighestId(),
+  });
 });
 
 app.get("/api/books", (req, res) => {
@@ -128,7 +133,7 @@ app.post("/books/delete-highest", (req, res) => {
   res.redirect("/");
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
 });
