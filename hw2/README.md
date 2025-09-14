@@ -1,6 +1,11 @@
 # Book Management System - Homework 2
 
-A functional book management application built with HTML, CSS, and Node.js/Express.
+A functional book management application built with EJS templating, CSS, and Node.js/Express.
+
+## Recent Updates
+- **EJS Integration**: Converted from static HTML to EJS templating for dynamic content
+- **Route Optimization**: Fixed delete-highest route to work with form submissions and redirects
+- **Server-Side Rendering**: Now renders data directly in templates for improved performance
 
 ## Features Implemented
 
@@ -19,28 +24,28 @@ A functional book management application built with HTML, CSS, and Node.js/Expre
 - **Behavior**: After submission, adds book and redirects to home view
 - **Implementation**: Form validation, unique ID assignment, and proper data storage
 
-#### 2. Update Book with ID 1
-- **Route**: `POST /books/1` (with hidden `_method=PUT`)
-- **Functionality**: Updates book with ID 1 to "Harry Potter" by "J.K Rowling"
-- **Behavior**: Pre-filled form with correct values, redirects to home after update
-- **Implementation**: Finds or creates book with ID 1, updates data, and redirects
+#### 2. Update Book with ID
+- **Route**: `PUT /api/books/:id`
+- **Functionality**: Updates existing books by ID
+- **Behavior**: AJAX-based updates with real-time UI refresh
+- **Implementation**: Finds book by ID, updates data, returns JSON response
 
 #### 3. Delete Highest ID Book
 - **Route**: `POST /books/delete-highest`
 - **Functionality**: Deletes the book with the highest ID from the collection
-- **Behavior**: Confirmation dialog, deletion, and redirect to home view
-- **Implementation**: Finds highest ID, removes book, and updates the list
+- **Behavior**: Confirmation dialog, form submission, deletion, and redirect to home view
+- **Implementation**: Finds highest ID, removes book, redirects to refresh page
 
 ## Project Structure
 
 ```
 hw2/
-├── package.json          # Node.js dependencies and scripts
-├── server.js            # Main Express server with all routes
+├── package.json          # Node.js dependencies (includes EJS)
+├── server.js            # Main Express server with EJS configuration
 ├── public/
 │   └── styles.css       # Creative CSS with artist liberty styling
 └── views/
-    ├── index.html       # Home page displaying all books
+    └── index.ejs        # EJS template with dynamic book rendering
 ```
 
 ## Installation & Setup
@@ -73,29 +78,30 @@ hw2/
 ### API Routes
 - `GET /api/books` - Returns JSON with all books and stats
 - `POST /books` - Add new book (redirects to home)
-- `POST /books/1` - Update book with ID 1 (redirects to home)
+- `PUT /api/books/:id` - Update book by ID (returns JSON)
+- `DELETE /api/books/:id` - Delete book by ID (returns JSON)
 - `POST /books/delete-highest` - Delete highest ID book (redirects to home)
 
 ## Features
 
-### Frontend (HTML/CSS - Artist Liberty)
+### Frontend (EJS Templates)
+- **Server-Side Rendering**: Dynamic content rendered with EJS templating
 - **Modern Design**: Gradient backgrounds and smooth animations
 - **Responsive Layout**: Works perfectly on desktop, tablet, and mobile
-- **Creative Styling**: Custom color schemes and interactive elements
-- **Smooth Transitions**: Hover effects and loading animations
+- **Interactive Elements**: AJAX operations for seamless user experience
 - **Dynamic Stats**: Real-time book count and library statistics
 
 ### Backend (Node.js/Express)
+- **EJS Integration**: Template engine for dynamic HTML generation
 - **RESTful API**: Clean and organized route structure
-- **In-Memory Storage**: Simple array-based data storage for demonstration
+- **Mixed Response Types**: JSON for AJAX, redirects for form submissions
 - **Form Validation**: Proper input validation and error handling
-- **Automatic Redirects**: All operations redirect back to home view
 - **Logging**: Console logging for all CRUD operations
 
 ## Technologies Used
 
-- **Backend**: Node.js, Express.js
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
+- **Backend**: Node.js, Express.js, EJS
+- **Frontend**: EJS Templates, CSS3, Vanilla JavaScript
 - **Styling**: Custom CSS with gradients, animations, and responsive design
 - **Package Manager**: npm
 - **Development**: nodemon for auto-restart
