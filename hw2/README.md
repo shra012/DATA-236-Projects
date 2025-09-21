@@ -1,11 +1,6 @@
-# Book Management System - Homework 2
-
+# Homework 2
+## Book Management System
 A functional book management application built with EJS templating, CSS, and Node.js/Express.
-
-## Recent Updates
-- **EJS Integration**: Converted from static HTML to EJS templating for dynamic content
-- **Route Optimization**: Fixed delete-highest route to work with form submissions and redirects
-- **Server-Side Rendering**: Now renders data directly in templates for improved performance
 
 ## Features Implemented
 
