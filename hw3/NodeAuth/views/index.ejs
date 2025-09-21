@@ -1,0 +1,91 @@
+<%- include('partials/header', { title: 'Home' }) %>
+
+<%- include('partials/navbar', { user: user }) %>
+
+    <div class="main-content">
+        <div class="container py-4">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="card feature-card border-0 shadow-lg">
+                        <div class="card-body text-center p-4 p-md-5">
+                            <h1 class="display-4 text-primary mb-4">
+                                <i class="bi bi-mortarboard-fill"></i>
+                                <span class="d-block d-sm-inline">Welcome to MSADI-SJSU</span>
+                            </h1>
+                            <p class="lead mb-4">
+                                Department of Applied Data Science<br>
+                            </p>
+                            
+                            <% if (user) { %>
+                                <div class="alert alert-success border-0 shadow-sm" role="alert">
+                                    <h4 class="alert-heading">
+                                        <i class="bi bi-check-circle-fill"></i> 
+                                        Welcome back, <%= user.fullName || user.username %>!
+                                    </h4>
+                                    <p class="mb-3">You are successfully logged in to the MSADI-SJSU portal.</p>
+                                    <hr>
+                                    <div class="d-grid gap-2 d-sm-block">
+                                        <a href="/dashboard" class="btn btn-success btn-ads btn-lg">
+                                            <i class="bi bi-speedometer2"></i> Go to Dashboard
+                                        </a>
+                                        <a href="/logout" class="btn btn-outline-danger btn-ads btn-lg">
+                                            <i class="bi bi-box-arrow-right"></i> Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <div class="alert alert-info border-0 shadow-sm" role="alert">
+                                    <h4 class="alert-heading">
+                                        <i class="bi bi-info-circle-fill"></i> 
+                                        Access Your Account
+                                    </h4>
+                                    <p class="mb-3">Please log in to access your MSADI-SJSU dashboard and resources.</p>
+                                    <hr>
+                                    <a href="/login" class="btn btn-primary btn-ads btn-lg">
+                                        <i class="bi bi-box-arrow-in-right"></i> Login to Your Account
+                                    </a>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <% if (!user) { %>
+                
+                <div class="row mt-5">
+                    <%- include('partials/feature-card', { 
+                        icon: 'bi bi-graph-up-arrow text-primary',
+                        title: 'Data Science Programs',
+                        description: 'Explore our cutting-edge curriculum in applied data science and analytics.',
+                        buttonText: 'Learn More',
+                        buttonIcon: 'bi bi-arrow-right',
+                        buttonClass: 'btn-outline-primary',
+                        colClass: 'col-lg-4 col-md-6'
+                    }) %>
+                    
+                    <%- include('partials/feature-card', { 
+                        icon: 'bi bi-people-fill text-success',
+                        title: 'Student Resources',
+                        description: 'Access course materials, assignments, and collaboration tools.',
+                        buttonText: 'Explore',
+                        buttonIcon: 'bi bi-arrow-right',
+                        buttonClass: 'btn-outline-success',
+                        colClass: 'col-lg-4 col-md-6'
+                    }) %>
+                    
+                    <%- include('partials/feature-card', { 
+                        icon: 'bi bi-cpu text-info',
+                        title: 'Research Projects',
+                        description: 'Discover ongoing research in machine learning and data analytics.',
+                        buttonText: 'Discover',
+                        buttonIcon: 'bi bi-arrow-right',
+                        buttonClass: 'btn-outline-info',
+                        colClass: 'col-lg-4 col-md-6'
+                    }) %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+<%- include('partials/footer') %>

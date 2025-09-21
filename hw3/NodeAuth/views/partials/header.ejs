@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - MSADI-SJSU</title>
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    
+    <style>
+        :root {
+            --ads-primary: #0d6efd;
+            --ads-secondary: #6c757d;
+            --ads-success: #198754;
+            --ads-info: #0dcaf0;
+            --ads-warning: #ffc107;
+            --ads-danger: #dc3545;
+            --ads-light: #f8f9fa;
+            --ads-dark: #212529;
+        }
+        
+        .ads-header {
+            background: linear-gradient(135deg, var(--ads-primary) 0%, #0b5ed7 100%);
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .role-badge {
+            font-size: 0.75rem;
+            padding: 0.35rem 0.6rem;
+            border-radius: 20px;
+        }
+        
+        .btn-ads {
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .feature-card {
+                margin-bottom: 1rem;
+            }
+            
+            .display-4 {
+                font-size: 2rem;
+            }
+            
+            .display-5 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .card {
+                margin-left: 0.25rem;
+                margin-right: 0.25rem;
+            }
+            
+            .btn-ads {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .footer {
+            background: var(--ads-dark);
+            color: var(--ads-light);
+            margin-top: auto;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+    </style>
+    
+    
+    <% if (typeof additionalStyles !== 'undefined') { %>
+        <%- additionalStyles %>
+    <% } %>
+</head>
+<body class="bg-light">

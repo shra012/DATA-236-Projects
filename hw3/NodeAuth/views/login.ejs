@@ -1,0 +1,216 @@
+<%- include('partials/header', { 
+    title: 'Login',
+    additionalStyles: `
+        <style>
+            .login-hero {
+                background: linear-gradient(135deg, var(--ads-primary) 0%, #0b5ed7 100%);
+                color: white;
+                padding: 3rem 0;
+            }
+            
+            .login-card {
+                border: none;
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                backdrop-filter: blur(10px);
+            }
+            
+            @media (max-width: 768px) {
+                .login-hero {
+                    padding: 2rem 0;
+                }
+                
+                .login-hero h1 {
+                    font-size: 1.8rem;
+                }
+            }
+        </style>
+    `
+}) %>
+
+<%- include('partials/navbar', { user: false }) %>
+    <div class="main-content"> 
+        
+        <div class="login-hero text-center">
+            <div class="container">
+                <h1 class="display-6 fw-bold mb-3">
+                    <i class="bi bi-mortarboard-fill me-2"></i>
+                    <span class="d-none d-sm-inline">MSADI-SJSU Portal</span>
+                    <span class="d-sm-none">ADS Portal</span>
+                </h1>
+                <p class="lead mb-2">Department of Applied Data Science</p>
+            </div>
+        </div>
+
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                    <div class="card login-card">
+                        <div class="card-body p-4 p-sm-5">
+                            
+                            <div class="text-center mb-4">
+                                <div class="mb-3">
+                                    <i class="bi bi-person-circle text-primary" style="font-size: 3.5rem;"></i>
+                                </div>
+                                <h2 class="h3 fw-bold mb-2">Welcome Back</h2>
+                                <p class="text-muted">Sign in to your account</p>
+                            </div>
+
+                            
+                            <% if (typeof error !== 'undefined' && error) { %>
+                                <div class="alert alert-danger border-0 shadow-sm" role="alert">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <%= error %>
+                                </div>
+                            <% } %>
+
+                            
+                            <form action="/login" method="POST" class="needs-validation" novalidate>
+                                <div class="mb-4">
+                                    <label for="username" class="form-label fw-medium">
+                                        <i class="bi bi-person me-2"></i>Username
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control form-control-lg" 
+                                           id="username" 
+                                           name="username" 
+                                           placeholder="Enter your username"
+                                           required
+                                           autocomplete="username"
+                                           autofocus>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid username.
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="password" class="form-label fw-medium">
+                                        <i class="bi bi-lock me-2"></i>Password
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" 
+                                               class="form-control form-control-lg" 
+                                               id="password" 
+                                               name="password" 
+                                               placeholder="Enter your password"
+                                               required
+                                               autocomplete="current-password">
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid password.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid mb-4">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-ads">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>
+                                        Sign In
+                                    </button>
+                                </div>
+                            </form>
+
+                            
+                            <div class="text-center">
+                                <a href="/" class="text-decoration-none text-muted">
+                                    <i class="bi bi-arrow-left me-1"></i>
+                                    Back to Home
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card mt-4 border-info bg-info bg-opacity-10">
+                        <div class="card-header bg-info text-white border-0">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <span class="fw-medium">Demo Credentials</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                        <div>
+                                            <strong class="text-primary">Administrator</strong>
+                                            <br><small class="text-muted">Full system access</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <code class="small">admin</code><br>
+                                            <code class="small">password</code>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                        <div>
+                                            <strong class="text-success">Student</strong>
+                                            <br><small class="text-muted">Student dashboard</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <code class="small">student1</code><br>
+                                            <code class="small">ads2025</code>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                        <div>
+                                            <strong class="text-warning">Faculty</strong>
+                                            <br><small class="text-muted">Faculty management</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <code class="small">faculty</code><br>
+                                            <code class="small">sjsu2025</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%- include('partials/footer', {
+    additionalScripts: `
+        <script>
+            
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    var forms = document.getElementsByClassName('needs-validation');
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+            
+            
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordField = document.getElementById('password');
+                const toggleIcon = this.querySelector('i');
+                
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    toggleIcon.classList.remove('bi-eye');
+                    toggleIcon.classList.add('bi-eye-slash');
+                } else {
+                    passwordField.type = 'password';
+                    toggleIcon.classList.remove('bi-eye-slash');
+                    toggleIcon.classList.add('bi-eye');
+                }
+            });
+        </script>
+    `
+}) %>

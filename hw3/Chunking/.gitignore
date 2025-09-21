@@ -1,0 +1,5 @@
+.venv
+.ipynb_checkpoints
+index_*/
+jupyter.log
+tiny_shakespeare.txt

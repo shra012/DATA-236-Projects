@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-dark ads-header sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-mortarboard-fill me-2"></i>
+            <span class="d-none d-sm-inline">MSADI-SJSU Portal</span>
+            <span class="d-sm-none">ADS</span>
+        </a>
+        
+        
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav ms-auto align-items-center">
+                <% if (typeof user !== 'undefined' && user) { %>
+                    
+                    <div class="nav-item dropdown d-lg-none">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> <%= user.username %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <span class="dropdown-item-text">
+                                    <i class="bi bi-person-badge"></i> 
+                                    <strong><%= user.username %></strong>
+                                    <% if (user.role) { %>
+                                        <br><span class="badge bg-primary role-badge mt-1"><%= user.role %></span>
+                                    <% } %>
+                                </span>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                            <li><a class="dropdown-item" href="/"><i class="bi bi-house"></i> Home</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                    
+                    
+                    <span class="navbar-text me-3 d-none d-lg-block">
+                        <i class="bi bi-person-circle"></i> 
+                        <strong><%= user.username %></strong>
+                        <% if (user.role) { %>
+                            <span class="badge bg-light text-dark role-badge ms-1"><%= user.role %></span>
+                        <% } %>
+                    </span>
+                    
+                    
+                    <a class="nav-link d-none d-lg-block" href="/dashboard">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                    <a class="nav-link d-none d-lg-block" href="/">
+                        <i class="bi bi-house"></i> Home
+                    </a>
+                    <a class="nav-link d-none d-lg-block" href="/logout">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                <% } else { %>
+                    
+                    <a class="nav-link" href="/">
+                        <i class="bi bi-house"></i> Home
+                    </a>
+                    <a class="nav-link" href="/login">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</nav>
