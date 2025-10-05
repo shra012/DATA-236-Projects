@@ -1,0 +1,23 @@
+[project]
+name = "library-management-system"
+version = "0.1.0"
+description = "FastAPI backend for a Library Management System"
+authors = [{ name = "Student" }]
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi",
+    "sqlalchemy>=2",
+    "pymysql",
+    "pydantic[email]",
+    "uvicorn",
+    "alembic",
+    "typer",
+    "python-dotenv",
+]
+
+[tool.uv]
+package = false
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
