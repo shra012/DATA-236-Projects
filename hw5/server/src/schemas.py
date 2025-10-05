@@ -1,5 +1,3 @@
-"""Pydantic schemas for the Library Management System."""
-
 from datetime import datetime
 from typing import List, Optional
 

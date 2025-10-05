@@ -1,5 +1,3 @@
-"""Database configuration for the FastAPI application."""
-
 import os
 
 from sqlalchemy import create_engine
@@ -27,7 +25,6 @@ Base = declarative_base()
 
 
 def get_db():
-    """Provide a transactional scope around a series of operations."""
     db = SessionLocal()
     try:
         yield db

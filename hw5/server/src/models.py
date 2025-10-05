@@ -1,5 +1,3 @@
-"""SQLAlchemy models for the Library Management System."""
-
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
