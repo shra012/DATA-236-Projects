@@ -11,7 +11,7 @@ class ChatIn(BaseModel):
     message: str = Field(..., min_length=1)
     conversation_id: Optional[int] = None
     title: Optional[str] = Field(default=None, max_length=255)
-    ai_provider: Optional[AIProvider] = Field(default=AIProvider.OPENAI)
+    ai_provider: Optional[AIProvider] = Field(default=AIProvider.GEMINI)
 
 
 class ChatOut(BaseModel):
@@ -45,4 +45,3 @@ class ChatMessageOut(BaseModel):
 class MessagesOut(BaseModel):
     conversation_id: int
     messages: List[ChatMessageOut]
-

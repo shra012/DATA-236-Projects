@@ -1,25 +1,21 @@
 # Agentic Chat Workspace
 
-A full-stack chat application with multi-AI provider support and real-time streaming responses. Users can chat with OpenAI (GPT-4o Mini) or Anthropic (Claude) with instant message display and streaming AI responses.
+A full-stack chat application powered by Google Gemini with a refreshed light Mission Control interface. Conversations run in a request/response flow with dynamic conversation management and a bright glassmorphism-inspired UI.
 
 ## Features
 
 ### Core Functionality
-- **Multi-AI Provider Support**: Choose between OpenAI (GPT-4o Mini) and Anthropic (Claude Haiku) for each conversation
-- **Real-Time Streaming**: AI responses stream character-by-character as they're generated
-- **Dual Response Modes**: 
-  - **Streaming Mode**: Real-time character-by-character response streaming
-  - **Fixed Mode**: Traditional request/response pattern
-- **Provider Lock**: AI provider is locked per conversation for consistency
+- **Gemini-Powered Responses**: Leverages Google Gemini (Generative Language API) for every conversation
+- **Request/Response Flow**: Deterministic completions without streaming for predictable UX
+- **Provider Lock**: Gemini provider stored per conversation for auditing consistency
 - **Conversation Management**: Create, continue, and manage multiple conversations
-- **Multi-User Support**: Each user can have their own conversations
+- **Default User Context**: Operates under a single, configurable default user handle for simplicity
 - **Auto-Scroll**: Messages automatically scroll to bottom as they arrive
-- **Modern UI**: Clean Atom One Dark theme with responsive design
+- **Mission Control UI**: Tailwind + DaisyUI powered layout with glassmorphism accents and responsive design
 - **CLI Tools**: Inspect and manage conversations from the command line
 
 ### AI Models
-- **OpenAI**: `gpt-4o-mini` (fast, cost-efficient, supports streaming)
-- **Anthropic**: `claude-3-5-haiku-latest` (latest Haiku model)
+- **Google Gemini**: `gemini-1.5-flash-latest` (default, configurable via environment variables)
 
 ## Quick Start
 
@@ -27,8 +23,7 @@ A full-stack chat application with multi-AI provider support and real-time strea
 - Python 3.9+
 - Node.js 18+
 - MySQL 8.0+
-- OpenAI API Key
-- Anthropic API Key
+- Google Gemini API Key
 
 ### Backend Setup
 ```bash
@@ -57,68 +52,54 @@ The application will be available at:
 agentic/
 ├── backend/              # FastAPI server
 │   ├── src/
-│   │   ├── routers/     # API endpoints
-│   │   │   └── chat.py  # Chat & streaming endpoints
-│   │   ├── models.py    # Database models
-│   │   ├── schemas.py   # Pydantic schemas
-│   │   └── main.py      # FastAPI application
+│   │   ├── routers/             # API endpoints
+│   │   │   └── conversations.py # /api/v1/conversations routes
+│   │   ├── services/            # Provider + conversation orchestration
+│   │   ├── models.py            # Database models
+│   │   ├── schemas.py           # Pydantic schemas
+│   │   └── main.py              # FastAPI application bootstrap
 │   ├── .env             # Environment configuration
 │   └── requirements.txt # Python dependencies
 └── frontend/            # React application
     ├── src/
-    │   ├── store/       # Redux state management
-    │   │   └── chatSlice.js  # Chat logic & streaming
-    │   ├── App.jsx      # Main component
-    │   └── App.css      # Atom One Dark theme
+    │   ├── state/       # Redux state management
+    │   │   └── chatSlice.js        # Chat logic & Gemini API calls
+    │   ├── features/chat/          # Mission Control layout & widgets
+    │   │   └── ChatDashboard.jsx   # Main dashboard composition
+    │   └── styles.css              # Tailwind entry + utility helpers
     └── package.json     # Node dependencies
 ```
 
 ## UI Features
 
-### Response Modes
-Toggle between two response modes in the sidebar:
-- **Streaming (Real-time)**: AI responses appear character-by-character as generated
-- **Fixed (Request/Response)**: Traditional mode - wait for complete response
+### Conversation Flow
+- Request/response interactions with Gemini, shown immediately after completion
+- Badge indicators surface the provider and mode (Gemini request/response)
 
 ### Conversation Modes
-- **New Conversation**: Start fresh with a new user ID
-- **Continue Conversation**: Select existing user and conversation
+- **New Conversation**: Clear the composer to seed a fresh Gemini thread for the default user
+- **Continue Conversation**: Pick an existing conversation from the history rail
 
 ### Theme
-Atom One Dark color scheme:
-- Background: `#282c34`
-- Accent: `#61afef` (Blue)
-- Syntax highlighting inspired colors
+Tailwind CSS + DaisyUI with a custom **mission** light theme:
+- Layered pastel gradients + glass panels for a bright mission control feel
+- Primary accent `#2563eb` with supporting violet and amber highlights
+- DaisyUI light fallback remains available for global theme switching
 
 ## API Endpoints
 
 ### Chat Endpoints
-- `POST /chat/send` - Send message (traditional request/response)
-- `POST /chat/send-stream` - Send message with streaming response
-- `GET /chat/conversations?user_id={id}` - Get user's conversations
-- `GET /chat/messages/{conversation_id}?user_id={id}` - Get conversation messages
-- `GET /chat/users` - List all users
-
-### Streaming Format
-The `/chat/send-stream` endpoint returns Server-Sent Events (SSE) with JSON payloads:
-
-```json
-{"type": "conversation_id", "conversation_id": 1}
-{"type": "user_message", "message": {...}}
-{"type": "content", "content": "Hello"}
-{"type": "content", "content": " world"}
-{"type": "assistant_message", "message": {...}}
-{"type": "done"}
-```
+- `POST /api/v1/conversations/messages` - Send a user message and receive the Gemini completion
+- `GET /api/v1/conversations?user_id={id}` - Get user's conversations
+- `GET /api/v1/conversations/{conversation_id}/messages?user_id={id}` - Get conversation messages
+- `GET /api/v1/conversations/users` - List all users
 
 ## Configuration
 
 ### Backend Environment Variables (.env)
 ```properties
-OPENAI_API_KEY=your_openai_api_key
-OPENAI_MODEL=gpt-4o-mini
-ANTHROPIC_API_KEY=your_anthropic_api_key
-ANTHROPIC_MODEL=claude-3-5-haiku-latest
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-1.5-flash-latest
 DB_USER=root
 DB_PASSWORD=your_password
 DB_HOST=127.0.0.1
@@ -136,16 +117,16 @@ VITE_API_BASE_URL=http://localhost:8000
 ### Backend
 - **Framework**: FastAPI 0.115.12
 - **Database**: SQLAlchemy + MySQL
-- **AI APIs**: OpenAI, Anthropic
-- **HTTP Client**: httpx (async streaming)
+- **AI API**: Google Gemini (Generative Language API)
+- **HTTP Client**: httpx
 - **CORS**: Enabled for local development
 
 ### Frontend
 - **Framework**: React 19.1.1
 - **State Management**: Redux Toolkit 2.9.0
 - **Build Tool**: Vite 7.1.7
-- **HTTP Client**: Axios 1.12.2 + Fetch API (streaming)
-- **Styling**: CSS with custom properties
+- **HTTP Client**: Axios 1.12.2
+- **Styling**: Tailwind CSS 3 + DaisyUI 4 with scoped utility helpers
 
 ## Development
 
@@ -179,9 +160,9 @@ Base.metadata.create_all(bind=engine)
 
 ## Troubleshooting
 
-### OpenAI Streaming Errors
-- Ensure `gpt-4o-mini` is used (supports streaming without verification)
-- Check API key permissions
+### Gemini API Errors
+- Verify `GEMINI_API_KEY` is set and has access to the requested model
+- Confirm `GEMINI_MODEL` matches an available Gemini Generative Language model
 
 ### Database Connection Issues
 - Verify MySQL is running
@@ -196,4 +177,3 @@ Base.metadata.create_all(bind=engine)
 ## 📄 License
 
 This project is for educational purposes.
-

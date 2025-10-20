@@ -1,0 +1,45 @@
+const TASK_STATUS = {
+  PENDING: 'pending',
+  IN_PROGRESS: 'in-progress',
+  COMPLETED: 'completed'
+};
+
+const TASK_PRIORITY = {
+  LOW: 'low',
+  MEDIUM: 'medium',
+  HIGH: 'high'
+};
+
+const TASK_CATEGORY = {
+  WORK: 'Work',
+  PERSONAL: 'Personal',
+  SHOPPING: 'Shopping',
+  HEALTH: 'Health',
+  OTHER: 'Other'
+};
+
+const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500
+};
+
+const VALIDATION_LIMITS = {
+  TITLE_MAX_LENGTH: 100,
+  DESCRIPTION_MAX_LENGTH: 500,
+  PAGINATION_MAX_LIMIT: 100,
+  PAGINATION_DEFAULT_LIMIT: 10,
+  PAGINATION_DEFAULT_PAGE: 1
+};
+
+module.exports = {
+  TASK_STATUS,
+  TASK_PRIORITY,
+  TASK_CATEGORY,
+  HTTP_STATUS,
+  VALIDATION_LIMITS
+};

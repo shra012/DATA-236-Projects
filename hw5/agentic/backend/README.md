@@ -1,35 +1,35 @@
-# Agentic AI Chat Backend
+# Agentic Mission Control API
 
-FastAPI-based backend service that supports multiple AI providers (OpenAI and Anthropic Claude).
+FastAPI backend powering the conversational Mission Control UI. The service now features a dedicated service layer, provider gateway, and versioned routing under `/api/v1/conversations`.
 
 ## Setup
 
 1. Create virtual environment and install dependencies:
-```bash
-python -m venv .venv
-source .venv/bin/activate
-make install
-```
 
-2. Create `.env` file:
-```env
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=agentic_ai
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   make install
+   ```
 
-OPENAI_API_KEY=your_openai_api_key
-OPENAI_MODEL=gpt-4o-mini
+2. Configure environment variables (`backend/.env` or export):
 
-ANTHROPIC_API_KEY=your_anthropic_api_key
-ANTHROPIC_MODEL=claude-3-5-haiku-latest
-```
+   ```env
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_USER=root
+   DB_PASSWORD=your_password
+   DB_NAME=agentic_ai
 
-3. Start the server:
-```bash
-make dev
-```
+   GEMINI_API_KEY=your_gemini_api_key
+   GEMINI_MODEL=gemini-1.5-flash-latest
+   ```
+
+3. Launch the server:
+
+   ```bash
+    make dev
+   ```
 
 ## CLI Commands
 
@@ -37,28 +37,30 @@ make dev
 make users                    # List all users
 make list USER=user-1         # List conversations for a user
 make show CONV=1              # Show messages in a conversation
-make clear-user USER=user-1   # Clear user's conversations
-make clear-all                # Clear all conversations
+make clear-user USER=user-1   # Clear a user's conversations
+make clear-all                # Purge all conversations (with confirmation)
 ```
 
-## API Endpoints
+## Service Architecture
 
-**Primary Endpoints**:
-- `POST /chat/send` - Send a message (auto-routes to correct AI provider)
-- `GET /chat/conversations?userId={userId}` - Get user's conversations
-- `GET /chat/users` - Get all users
-- `GET /chat/messages/{conversationId}` - Get conversation messages
+- `src/services/gemini.py` – Integration helper for Google Gemini (Generative Language API)
+- `src/services/chat_service.py` – Conversation orchestration and persistence helpers
+- `src/routers/conversations.py` – Versioned API surface (`/api/v1/conversations`) exposing conversation + message routes
 
-**Provider-Specific Endpoints**:
-- `POST /openai/chat` - OpenAI-specific endpoint
-- `POST /anthropic/chat` - Anthropic-specific endpoint
+The FastAPI app is now named **Agentic AI Mission Control** (see `src/main.py`).
+
+## HTTP API
+
+| Method & Path | Description |
+| --- | --- |
+| `POST /api/v1/conversations/messages` | Persist a user message and return the Gemini completion |
+| `GET /api/v1/conversations?user_id={id}` | List conversations for a given user handle |
+| `GET /api/v1/conversations/users` | Retrieve distinct user handles |
+| `GET /api/v1/conversations/{conversation_id}/messages?user_id={id}` | Retrieve messages for a conversation (ownership enforced) |
 
 ## Database Schema
 
-**Conversations**: `id`, `user_id`, `title`, `ai_provider`, `created_at`, `updated_at`  
-**Messages**: `id`, `conversation_id`, `role`, `content`, `created_at`
+- **Conversations**: `id`, `user_id`, `title`, `ai_provider`, `created_at`, `updated_at`
+- **Messages**: `id`, `conversation_id`, `role`, `content`, `created_at`
 
-## AI Provider Selection
-
-Users select between OpenAI (gpt-4o-mini) or Anthropic (Claude 3.5 Haiku) when creating a conversation. The provider is locked for the conversation's lifetime and stored in the `ai_provider` column.
-
+AI provider selection remains fixed per conversation and is stored alongside each conversation record.

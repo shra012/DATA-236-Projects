@@ -3,11 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 from .database import Base, engine
-from .routers import chat_router
+from .routers import conversations_router
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Agentic AI Chat Backend", version="0.0.1")
+app = FastAPI(title="Agentic AI Mission Control", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(chat_router)
+app.include_router(conversations_router)
 
 
 @app.get("/", include_in_schema=False)
