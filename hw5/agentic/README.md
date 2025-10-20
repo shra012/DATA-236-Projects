@@ -145,14 +145,14 @@ from src.database import Base, engine
 Base.metadata.create_all(bind=engine)
 ```
 
-## 🔒 Security Notes
+## Security Notes
 
 - API keys should never be committed to version control
 - Use environment variables for all sensitive configuration
 - CORS is configured for localhost - update for production
 - Database credentials should be secured
 
-## 📚 Additional Documentation
+## Additional Documentation
 
 - [Backend README](backend/README.md) - Detailed backend setup and API docs
 - [Frontend README](frontend/README.md) - Frontend architecture and components
@@ -174,6 +174,6 @@ Base.metadata.create_all(bind=engine)
 - Check CORS settings in `main.py`
 - Update `VITE_API_BASE_URL` if needed
 
-## 📄 License
+## License
 
 This project is for educational purposes.
