@@ -1,0 +1,149 @@
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e0e0e0;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: white;
+  border: 2px solid #e0e0e0;
+}
+
+.timeline-item.thought .timeline-marker {
+  border-color: #667eea;
+}
+
+.timeline-item.action .timeline-marker {
+  border-color: #f59e0b;
+}
+
+.timeline-item.observation .timeline-marker {
+  border-color: #10b981;
+}
+
+.timeline-item.answer .timeline-marker {
+  border-color: #ec4899;
+}
+
+.timeline-content {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 16px;
+  border-left: 3px solid #e0e0e0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.timeline-item.thought .timeline-content {
+  border-left-color: #667eea;
+}
+
+.timeline-item.action .timeline-content {
+  border-left-color: #f59e0b;
+}
+
+.timeline-item.observation .timeline-content {
+  border-left-color: #10b981;
+}
+
+.timeline-item.answer .timeline-content {
+  border-left-color: #ec4899;
+  background: #fef3f9;
+}
+
+.timeline-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.timeline-type {
+  font-weight: 600;
+  color: #333;
+}
+
+.timeline-tool {
+  color: #666;
+  font-size: 14px;
+}
+
+.timeline-body p {
+  margin: 0;
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.timeline-body pre {
+  background: white;
+  padding: 12px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 13px;
+  margin: 8px 0 0 0;
+  border: 1px solid #e0e0e0;
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.success-badge {
+  display: inline-block;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.error-badge {
+  display: inline-block;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.final-answer {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
