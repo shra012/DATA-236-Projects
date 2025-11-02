@@ -1,0 +1,28 @@
+{
+  "name": "kafka-user-management-service",
+  "version": "1.0.0",
+  "description": "Kafka-based user management service with RPC pattern",
+  "main": "consumer.js",
+  "scripts": {
+    "start": "node consumer.js",
+    "demo": "node demo.js",
+    "setup": "node setup-topics.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kafka",
+    "microservices",
+    "user-management",
+    "rpc",
+    "message-queue"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafka-node": "^5.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,6 @@
+HW_8.pdf
+node_modules/
+.env
+.vscode/
+__pycache__/
+.venv
