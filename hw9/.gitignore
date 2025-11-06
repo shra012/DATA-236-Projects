@@ -1,0 +1,9 @@
+data
+.venv
+__pycache__/
+hw9_demo.egg-info/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
