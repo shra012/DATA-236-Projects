@@ -1,0 +1,20 @@
+[project]
+name = "customer-segmentation"
+version = "0.1.0"
+description = "Simulated mall customer segmentation with KMeans and Streamlit UI"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scikit-learn>=1.4",
+    "matplotlib>=3.8",
+    "streamlit>=1.36",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = false

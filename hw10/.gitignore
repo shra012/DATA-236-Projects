@@ -1,0 +1,4 @@
+__pycache__
+.venv
+customer_kmeans_model_Shravankumar_Nagarajan.pkl
+customer_metadata.pkl
