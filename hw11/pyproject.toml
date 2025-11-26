@@ -1,0 +1,21 @@
+[project]
+name = "career-counselor-agent"
+version = "0.1.0"
+description = "Streamlit-based career counseling agent powered by Ollama llama3.2 and LangChain."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit>=1.35,<2.0",
+    "langchain>=0.2.5,<0.3",
+    "langchain-openai>=0.1.7",
+    "python-dotenv>=1.0,<2.0",
+    "requests>=2.32,<3.0",
+    "beautifulsoup4>=4.12,<5.0",
+    "pypdf>=4.2,<5.0",
+    "fpdf2>=2.7,<3.0",
+    "reportlab>=4.0,<5.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"

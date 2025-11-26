@@ -1,0 +1,5 @@
+.venv
+career_counselor_agent
+career_counselor_agent.egg-info
+__pycache__/
+.env
